@@ -3,6 +3,7 @@ import numpy as np
 from EEGOARNET_utils import standarize_channels, standarize_signal
 from medusa.epoching import get_epochs
 #%% Load EEG signal and EEGOAR-Net
+
 eegoarnet = EEGOARNET()
 eegoarnet.load_weights('EEGOAR-Net_weights.h5')
 recordings = np.load('materials\eeg_examples.npy',allow_pickle=True)[()]
