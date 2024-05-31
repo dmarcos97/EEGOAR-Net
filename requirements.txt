@@ -1,0 +1,3 @@
+tensorflow
+medusa-kernel
+numpy
