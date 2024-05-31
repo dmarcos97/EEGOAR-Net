@@ -4,14 +4,15 @@ import random
 
 
 def get_predefined_montages(n_cha, channels, type='uniform'):
+    channels = return_uppercase(channels)
     if type == 'vep':
-        eight_ch = ["Fz", "Cz", "P3", "Pz", "P4", "PO7", "PO8", "Oz"]
+        eight_ch = ["FZ", "CZ", "P3", "Pz", "P4", "PO7", "PO8", "OZ"]
         return np.isin(channels, eight_ch)
     else:
-        eight_ch = ["F3", "F4", "C3", "Cz", "C4", "P3", "P4", "Oz"]
-        sixteen_ch = ["F7", "Fz", "F8", "Pz", "PO3", "PO4", "POz", "FPz"] + \
+        eight_ch = ["F3", "F4", "C3", "CZ", "C4", "P3", "P4", "OZ"]
+        sixteen_ch = ["F7", "Fz", "F8", "Pz", "PO3", "PO4", "POZ", "FPZ"] + \
                      eight_ch
-        twentyfour_ch = ["T7", "T8", "FC3", "FCz", "FC4", "CP3", "CPz", "CP4"] + \
+        twentyfour_ch = ["T7", "T8", "FC3", "FCz", "FC4", "CP3", "CPZ", "CP4"] + \
                         sixteen_ch
         thirtytwo_ch = ["F5", "F6", "C5", "C6", "P5", "P6", "O1", "O2"] + \
                        twentyfour_ch
@@ -40,7 +41,7 @@ def get_predefined_montages(n_cha, channels, type='uniform'):
 
 
 def data_augmentation(X, Y):
-    sixtyfour_ch = list(np.load('channel_set_64ch.npy')[()])
+    sixtyfour_ch = list(np.load('materials\channel_set_64ch.npy')[()])
 
     eigh_ch = get_predefined_montages(8, sixtyfour_ch)
     sixteen_ch = get_predefined_montages(16, sixtyfour_ch)
@@ -119,7 +120,8 @@ def prepare_data(X, Y, is_train=True):
 
 def standarize_channels(ch_labels):
     # Load 64-channels EEG montage
-    sixtyfour_ch = list(np.load('channel_set_64ch.npy')[()])
+    sixtyfour_ch = return_uppercase(list(np.load('materials\channel_set_64ch.npy')[()]))
+    ch_labels = return_uppercase(ch_labels)
     # Remove channels that are not included in the 64-channels
     eeg_ch_study = np.array(ch_labels)[np.isin(ch_labels, sixtyfour_ch)]
     # Get the indexes of the channel labels in the 64 allowed channels matrix
@@ -133,7 +135,8 @@ def standarize_channels(ch_labels):
 def standarize_signal(signal_x, ch_labels, idx_original_channels,
                       signal_y=None):
     # Load 64-channels EEG montage
-    sixtyfour_ch = list(np.load('channel_set_64ch.npy')[()])
+    sixtyfour_ch = return_uppercase(list(np.load('materials\channel_set_64ch.npy')[()]))
+    ch_labels = return_uppercase(ch_labels)
 
     standarized_x_signal = np.zeros((signal_x.shape[0],
                                      signal_x.shape[1],
@@ -151,3 +154,7 @@ def standarize_signal(signal_x, ch_labels, idx_original_channels,
             ..., np.isin(ch_labels, sixtyfour_ch)]
 
     return standarized_x_signal, standarized_y_signal
+
+def return_uppercase(ch_list):
+    upper_ch_list = [ch.upper() for ch in ch_list]
+    return upper_ch_list
