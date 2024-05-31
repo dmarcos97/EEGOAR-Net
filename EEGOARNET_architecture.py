@@ -1,5 +1,3 @@
-import os
-
 from tensorflow.keras.layers import Activation, Input
 from tensorflow.keras.layers import Dropout, BatchNormalization, SpatialDropout2D
 from tensorflow.keras.layers import Conv2D, AveragePooling2D, DepthwiseConv2D
@@ -12,18 +10,6 @@ from tensorflow import cast, float32, complex64
 from tensorflow.keras.losses import mse
 from tensorflow.signal import fft
 from tensorflow import transpose
-
-
-def custom_mse(y_true,y_pred):
-    fft_y_true = transpose(fft(cast(transpose(y_true,
-                                                  perm=[3,0,2,1]),complex64)),
-                           perm=[1,3,2,0])
-    fft_y_pred = transpose(fft(cast(transpose(y_pred,
-                                                  perm=[3,0,2,1]),complex64)),
-                           perm=[1,3,2,0])
-    mse_fft = cast(mse(fft_y_true,fft_y_pred),float32)
-    return cast(mse(y_true,y_pred),float32) + mse_fft
-
 
 def EEGOARNET(input_time=1000, fs=128, ncha=64, filters_per_branch=8,
                  scales_time=(500, 250, 125), dropout_rate=0.25,
@@ -198,8 +184,13 @@ def EEGOARNET(input_time=1000, fs=128, ncha=64, filters_per_branch=8,
     model.compile(loss=custom_mse, optimizer=optimizer,
                   metrics=['mse'])
     return model
-if __name__ == "__main__":
-    with open('modelsummary.txt', 'w') as f:
-        model = EEGOARNET()
-        model.summary(print_fn=lambda x: f.write(x + '\n'))
 
+def custom_mse(y_true,y_pred):
+    fft_y_true = transpose(fft(cast(transpose(y_true,
+                                                  perm=[3,0,2,1]),complex64)),
+                           perm=[1,3,2,0])
+    fft_y_pred = transpose(fft(cast(transpose(y_pred,
+                                                  perm=[3,0,2,1]),complex64)),
+                           perm=[1,3,2,0])
+    mse_fft = cast(mse(fft_y_true,fft_y_pred),float32)
+    return cast(mse(y_true,y_pred),float32) + mse_fft
