@@ -28,11 +28,17 @@ The architecture follows an encoder-decoder style network trained to reconstruct
 # Repository Structure
 
 ├── EEGOARNET_architecture.py # Model architecture
+
 ├── EEGOARNET_utils.py # Utility functions
+
 ├── EEGOARNET_example.py # Example usage
+
 ├── EEGOAR-Net_weights.h5 # Pretrained weights
+
 ├── materials/ # Additional materials
+
 ├── requirements.txt
+
 └── README.md
 
 # Requirements
@@ -50,3 +56,12 @@ Install dependencies with:
 ```bash
 pip install -r requirements.txt
 
+````
+
+# Citation 
+If you use this repository in your research, please cite the associated publication: 
+```bash
+Marcos-Martínez, D., et al. Calibration-Free Ocular Artifact Reduction in EEG signals using a Montage-Independent Deep Learning Model.
+Biomedical Signal Processing and Control, 2025. DOI: https://doi.org/10.1016/j.bspc.2025.108147
+
+````
