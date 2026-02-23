@@ -47,7 +47,7 @@ The architecture follows an encoder-decoder style network trained to reconstruct
 
 This project currently works only with:
 
-Python < 3.10
+Python <= 3.10
 
 Some dependencies used in this repository are not compatible with newer Python versions.
 
