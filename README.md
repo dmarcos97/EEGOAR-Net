@@ -8,6 +8,7 @@ Calibration-Free Ocular Artifact Reduction in EEG signals using a Montage-Indepe
 
 EEGOAR-Net is designed to attenuate eye-related artifacts (such as blinks or eye movements) in EEG recordings while preserving neural information, enabling easier use in EEG research and brain–computer interface applications.
 
+This repository includes both a **native PyTorch** (`model\eegoarnet_pytorch.py`) and **native TensorFlow/Keras** implementation (`model\eegoarnet_tf.py`).
 ---
 
 # Overview
@@ -27,36 +28,90 @@ The architecture follows an encoder-decoder style network trained to reconstruct
 
 # Repository Structure
 
-├── EEGOARNET_architecture.py # Model architecture
+├── model/
 
-├── EEGOARNET_utils.py # Utility functions
+│ ├── eegoarnet_tf.py # Model architecture (TensorFlow/Keras)
 
-├── EEGOARNET_example.py # Example usage
+│ ├── eegoarnet_torch.py # Model architecture (PyTorch)
 
-├── EEGOAR-Net_weights.h5 # Pretrained weights
+│ ├── EEGOARNET_tf_summary.txt # TensorFlow model summary
+
+│ └── EEGOARNET_torch.txt # PyTorch model summary
+
+│
+
+├── weights/
+
+│ ├── EEGOARNet_tf_weights.h5 # Pretrained weights (TensorFlow/Keras)
+
+│ └── EEGOARNet_torch_weights.pt # Pretrained weights (PyTorch)
+
+│
 
 ├── materials/ # Additional materials
 
-├── requirements.txt
+│
+
+├── example.py # Example usage (TensorFlow and PyTorch)
+
+├── EEGOAR-Net scheme.png
+
+├── LICENSE
+
+├── requirements_tf.txt # TensorFlow/Keras dependencies
+
+├── requirements_torch.txt # PyTorch dependencies
 
 └── README.md
 
-# Requirements
+---
 
+# Requirements
 ⚠️ Important
 
-This project currently works only with:
+The TensorFlow and PyTorch implementations have different requirements and
+should be installed in **separate environments**.
 
-Python <= 3.10
+### TensorFlow
+
+This implementation currently works only with:
+
+**Python <= 3.10**
 
 Some dependencies used in this repository are not compatible with newer Python versions.
 
 Install dependencies with:
 
 ```bash
-pip install -r requirements.txt
+pip install -r requirements_tf.txt
+```
 
-````
+### PyTorch
+
+No Python version ceiling — validated on Python 3.12. Validated with
+`torch==2.5.1+cu121`; newer torch/CUDA versions are expected to work fine
+(only standard ops are used: `Conv2d`, `BatchNorm2d`, `MaxPool2d`, `Upsample`,
+`ELU`).
+
+Install dependencies with:
+
+```bash
+pip install -r requirements_torch.txt
+```
+
+For a CUDA build, install `torch` from PyTorch's own index first:
+
+```bash
+pip install torch==2.5.1 --index-url https://download.pytorch.org/whl/cu121
+```
+
+---
+
+# Usage
+
+`example.py` shows how to load and run both implementations.
+
+---
 
 # Citation 
 If you use this repository in your research, please cite the associated publication: 

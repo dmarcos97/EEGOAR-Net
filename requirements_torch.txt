@@ -1,0 +1,19 @@
+# Requirements for the PyTorch port of EEGOAR-Net
+# (eegoarnet_pytorch.py)
+#
+# Unlike the original TensorFlow implementation, this port has NO Python
+# version ceiling — it has been validated on Python 3.12.
+#
+# torch==2.5.1+cu121 is the exact version used for the parity validation
+# (max abs diff ~1e-4 vs. TensorFlow). Newer torch/CUDA versions are expected
+# to work fine (only standard ops are used: Conv2d, BatchNorm2d, MaxPool2d,
+# Upsample, ELU) — if you use one, just re-run test_parity.py to confirm.
+#
+# For a CUDA build, install from PyTorch's own index:
+#   pip install torch==2.5.1 --index-url https://download.pytorch.org/whl/cu121
+# For CPU-only, plain PyPI works:
+#   pip install torch==2.5.1
+
+torch>=2.5.1
+numpy
+h5py          # only needed to run convert_weights_h5_to_pytorch.py
